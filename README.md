@@ -5,7 +5,7 @@ Este projeto é uma aplicação back-end simples desenvolvida com Spring Boot, d
 ## 🚀 Tecnologias Utilizadas
 
 * **Java 21**
-* **Spring Boot 3.5.3
+* **Spring Boot 3.5.3**
     * Spring Web (para APIs REST)
     * Lombok (para reduzir boilerplate code)
     * Spring Boot DevTools (para agilizar o desenvolvimento)
