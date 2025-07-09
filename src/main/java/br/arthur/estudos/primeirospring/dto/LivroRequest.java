@@ -6,7 +6,7 @@ package br.arthur.estudos.primeirospring.dto;
  * <p>DTO com os dados do livro enviado para cadastro</p>
  * @param titulo String
  * @param autor String
- * @param anoPublicado int
+ * @param anoPublicacao int
  * @author Arthur Ribeiro
  * @version 1.0
  * @since 2025-07-08
