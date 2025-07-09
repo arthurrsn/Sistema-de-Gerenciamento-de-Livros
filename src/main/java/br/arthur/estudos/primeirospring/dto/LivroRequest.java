@@ -1,7 +1,14 @@
 package br.arthur.estudos.primeirospring.dto;
 
-public record LivroRequest() {
-    public static String titulo = "";
-    public static String autor = "";
-    public static String anoPublicacao = "";
-}
+/**
+ * <h1>LivroRequest</h1>
+ * <strong>Projeto de teste. Não utilizar em produção.</strong>
+ * <p>DTO com os dados do livro enviado para cadastro</p>
+ * @param titulo String
+ * @param autor String
+ * @param anoPublicado int
+ * @author Arthur Ribeiro
+ * @version 1.0
+ * @since 2025-07-08
+ */
+public record LivroRequest(String titulo, String autor, int anoPublicacao) {}
