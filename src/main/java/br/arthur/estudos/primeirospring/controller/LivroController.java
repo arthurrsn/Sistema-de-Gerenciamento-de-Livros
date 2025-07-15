@@ -4,7 +4,6 @@ import br.arthur.estudos.primeirospring.dto.LivroRequest;
 import br.arthur.estudos.primeirospring.model.Livro;
 import br.arthur.estudos.primeirospring.service.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +18,7 @@ import java.util.List;
  * <strong>Projeto de teste. Não utilizar em produção.</strong>
  * <p>Receber requisições do front end e retornar informações</p>
  * @author Arthur Ribeiro
- * @version 1.0
+ * @version 2.0
  * @since 2025-07-08
  */
 @RestController

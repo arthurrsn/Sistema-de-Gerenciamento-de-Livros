@@ -2,12 +2,12 @@ package br.arthur.estudos.primeirospring.service;
 
 import br.arthur.estudos.primeirospring.dto.LivroRequest;
 import br.arthur.estudos.primeirospring.model.Livro;
+import br.arthur.estudos.primeirospring.repository.LivroRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <h1>LivroService</h1>
@@ -16,30 +16,33 @@ import java.util.concurrent.atomic.AtomicLong;
  *     Gerencia a lógica de negócio para operações de livros, incluindo cadastro e listagem.
  * </p>
  * @author Arthur Ribeiro
- * @version 1.0
+ * @version 2.0
  * @since 2025-07-08
  */
 @Service
 public class LivroService {
-    // Criando AtomicLong para armazenar os IDs.
-    private final AtomicLong idCounter = new AtomicLong();
-    private final List<Livro> listaLivros = new ArrayList<>();
+    private final LivroRepository livroRepository;
+
+    // Construtor
+    @Autowired
+    public LivroService(LivroRepository livroRepository){
+        this.livroRepository = livroRepository;
+    }
 
     /**
      * <h1>cadastrarLivro</h1>
      * <strong>Realizar cadastro de livros na memória</strong>
      * <p>
      *     Utilizado para cadastrar livros. Os dados do livro estarão em um DTO (LivroRequest)
-     *     e serão formatados para utilização. Lançando excessões para caso os dados não estejam conforme
-     *     as regras de negócio.
+     *     e serão formatados para utilização e armazenamento no banco de dados.
+     *     Lançando excessões para caso os dados não estejam conforme as regras de negócio.
      * </p>
      * @param livroRequest DTO com os dados do livro
-     * @return livroAtual retornando a instancia do livro que acabamos de criar.
+     * @return livroSalvo retornando a instancia do livro que acabamos de criar.
      * @throws IllegalArgumentException lançada para quando os param não cumprem com as regras
      */
     public Livro cadastrarLivro(LivroRequest livroRequest) throws IllegalArgumentException {
         int anoAtual = LocalDate.now().getYear();
-        long livroId = idCounter.getAndIncrement(); // Pegando o valor atual do id e adicionando 1
 
         // Pegar valores do DTO e fazer formatação.
         String titulo = livroRequest.titulo().trim().toUpperCase();
@@ -55,19 +58,25 @@ public class LivroService {
             throw new IllegalArgumentException("O ano de publicação não pode ser maior do que o ano atual.");
         }
 
-        Livro livroAtual = new Livro(livroId, titulo, autor, anoPublicacao);
-        listaLivros.add(livroAtual);
+        // Criando o livro e passando os dados, menos o ID, que será gerado automaticamente
+        Livro novoLivro = new Livro(null, titulo, autor, anoPublicacao);
 
-        return livroAtual;
+        // Salvar o livro no banco de dados
+        Livro livroSalvo = livroRepository.save(novoLivro);
+
+        System.out.println("LOG: Livro salvo no banco de dados: " + livroSalvo.getTitulo() + " (ID: " + livroSalvo.getId() + ")");
+
+        // Enviando instancia do livro para o front end
+        return livroSalvo;
     }
 
     /**
      * <h1>listarLivros</h1>
-     * <strong>Retorna uma lista com os livros em memória</strong>
+     * <strong>Retorna uma lista com todos os livros no banco de dados</strong>
      * @return listaLivros
      */
     public List<Livro> listarLivros(){
-        return listaLivros;
+        return livroRepository.findAll();
     }
 
 
